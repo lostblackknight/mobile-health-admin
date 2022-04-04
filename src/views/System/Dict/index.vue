@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <!--查询表单-->
-    <el-form ref="queryForm" :model="queryParams" :inline="true">
+    <el-form ref="queryForm" :model="queryParams" :inline="true" @submit.native.prevent>
       <el-form-item label="字典标签" prop="dictLabel">
         <el-input v-model="queryParams.dictLabel" placeholder="请输入字典标签" style="width: 240px" clearable size="small" @keyup.enter.native="handleQuery" />
       </el-form-item>

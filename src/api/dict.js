@@ -52,3 +52,10 @@ export function getDictOptions() {
     method: 'get'
   })
 }
+
+export function getAreas() {
+  return request({
+    url: '/admin/areas/list',
+    method: 'get'
+  })
+}
