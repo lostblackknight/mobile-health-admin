@@ -8,11 +8,7 @@
       </el-carousel>
     </div>
     <div class="header">
-      <el-image
-        style="width: 76px; height: 76px"
-        :src="hospital.logo"
-        fit="fit"
-      />
+      <img :src="hospital.logo" alt="" width="76px" height="76px">
       <h1 style="padding-left: 20px;">{{ hospital.hospitalName }}</h1>
     </div>
     <section>
@@ -81,8 +77,8 @@ export default {
     getHospital() {
       getHospitalById(this.$route.params.hospitalCode)
         .then(({ data }) => {
-          this.hospital = data
           this.imageList = data.images.split(',')
+          this.hospital = data
         })
     }
   }

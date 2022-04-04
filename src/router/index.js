@@ -207,6 +207,16 @@ export const asyncRoutes = [
           roles: ['admin'] // or you can only set roles in sub nav
         },
         hidden: true
+      },
+      {
+        path: 'schedule/:hospitalCode',
+        component: () => import('@/views/Hospital/Schedule'),
+        name: 'Schedule',
+        meta: {
+          title: '医院排班',
+          roles: ['admin'] // or you can only set roles in sub nav
+        },
+        hidden: true
       }
     ]
   },

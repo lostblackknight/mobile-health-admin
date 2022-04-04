@@ -52,6 +52,9 @@
           <router-link :to="`/hospital/hospitalDetails/${scope.row.hospitalCode}`">
             <el-button class="el-btn-custom" size="mini" type="text" icon="el-icon-s-promotion">详情</el-button>
           </router-link>
+          <router-link :to="`/hospital/schedule/${scope.row.hospitalCode}`">
+            <el-button class="el-btn-custom" size="mini" type="text" icon="el-icon-s-promotion">排班</el-button>
+          </router-link>
         </template>
       </el-table-column>
     </el-table>
