@@ -7,9 +7,9 @@ export function getRoutes() {
   })
 }
 
-export function getRoles() {
+export function getRolesByList() {
   return request({
-    url: '/vue-element-admin/roles',
+    url: '/admin/roles/list',
     method: 'get'
   })
 }

@@ -123,6 +123,7 @@ export default {
     handleQuery() {
       this.$refs.queryForm.validate(valid => {
         if (valid) {
+          this.pageNum = 1
           this.getList()
         } else {
           return false

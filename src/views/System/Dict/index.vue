@@ -145,6 +145,7 @@ export default {
       this.$refs.queryForm.validate(valid => {
         if (valid) {
           this.getList()
+          this.pageNum = 1
         } else {
           return false
         }
