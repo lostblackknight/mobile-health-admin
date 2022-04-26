@@ -33,20 +33,20 @@
       <el-table-column key="hospitalName" label="医院名称" align="center" prop="hospitalName" />
       <el-table-column key="levelName" label="医院等级" align="center" prop="levelName" />
       <el-table-column key="className" label="医院类型" align="center" prop="className" />
-      <el-table-column key="status" label="医院状态" align="center" prop="status">
-        <template slot-scope="scope">
-          <el-switch
-            v-model="scope.row.status"
-            active-text="已上线"
-            inactive-text="已下线"
-            :active-value="0"
-            :inactive-value="1"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            @change="handleStatusChange(scope.row)"
-          />
-        </template>
-      </el-table-column>
+      <!--      <el-table-column key="status" label="医院状态" align="center" prop="status">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <el-switch-->
+      <!--            v-model="scope.row.status"-->
+      <!--            active-text="已上线"-->
+      <!--            inactive-text="已下线"-->
+      <!--            :active-value="0"-->
+      <!--            :inactive-value="1"-->
+      <!--            active-color="#13ce66"-->
+      <!--            inactive-color="#ff4949"-->
+      <!--            @change="handleStatusChange(scope.row)"-->
+      <!--          />-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column label="操作" align="center" width="180" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <router-link :to="`/hospital/hospitalDetails/${scope.row.hospitalCode}`">

@@ -1,11 +1,13 @@
 import { login, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken, setRefreshToken, removeRefreshToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import { getMemberInfo, loginMember } from '@/api/member'
 
 const state = {
   token: getToken(),
   name: '',
   avatar: '',
+  loginType: '管理员',
   roles: []
 }
 
@@ -19,6 +21,9 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
+  SET_LOGIN_TYPE: (state, loginType) => {
+    state.loginType = loginType
+  },
   SET_ROLES: (state, roles) => {
     state.roles = roles
   }
@@ -29,42 +34,103 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { access_token, refresh_token } = response.data
-        commit('SET_TOKEN', access_token)
-        setToken(access_token)
-        setRefreshToken(refresh_token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      if (localStorage.getItem('loginType') === '管理员') {
+        login({ username: username.trim(), password: password }).then(response => {
+          const { access_token, refresh_token } = response.data
+          commit('SET_TOKEN', access_token)
+          setToken(access_token)
+          setRefreshToken(refresh_token)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      } else if (localStorage.getItem('loginType') === '医生') {
+        loginMember({ username: username.trim(), password: password }).then(response => {
+          const { access_token, refresh_token } = response.data
+          commit('SET_TOKEN', access_token)
+          setToken(access_token)
+          setRefreshToken(refresh_token)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      } else {
+        login({ username: username.trim(), password: password }).then(response => {
+          const { access_token, refresh_token } = response.data
+          commit('SET_TOKEN', access_token)
+          setToken(access_token)
+          setRefreshToken(refresh_token)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      }
     })
+  },
+
+  setLoginType({ commit }, loginType) {
+    commit('SET_LOGIN_TYPE', loginType)
   },
 
   // get user info
   getInfo({ commit }) {
     return new Promise((resolve, reject) => {
-      getInfo().then(response => {
-        const { data } = response
+      if (localStorage.getItem('loginType') === '管理员') {
+        getInfo().then(response => {
+          const { data } = response
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
+          if (!data) {
+            reject('Verification failed, please Login again.')
+          }
 
-        const { roles, name, avatar } = data
+          const { roles, name, avatar } = data
 
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
+          // roles must be a non-empty array
+          if (!roles || roles.length <= 0) {
+            reject('getInfo: roles must be a non-null array!')
+          }
 
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
+          commit('SET_ROLES', roles)
+          commit('SET_NAME', name)
+          commit('SET_AVATAR', avatar)
+          resolve(data)
+        }).catch(error => {
+          reject(error)
+        })
+      } else if (localStorage.getItem('loginType') === '医生') {
+        getMemberInfo().then(response => {
+          const { data } = response
+          const { roles, nickName, avatar } = data
+          commit('SET_ROLES', roles)
+          commit('SET_NAME', nickName)
+          commit('SET_AVATAR', avatar)
+          resolve(data)
+        }).catch(error => {
+          reject(error)
+        })
+      } else {
+        getInfo().then(response => {
+          const { data } = response
+
+          if (!data) {
+            reject('Verification failed, please Login again.')
+          }
+
+          const { roles, name, avatar } = data
+
+          // roles must be a non-empty array
+          if (!roles || roles.length <= 0) {
+            reject('getInfo: roles must be a non-null array!')
+          }
+
+          commit('SET_ROLES', roles)
+          commit('SET_NAME', name)
+          commit('SET_AVATAR', avatar)
+          resolve(data)
+        }).catch(error => {
+          reject(error)
+        })
+      }
     })
   },
 
@@ -73,6 +139,7 @@ const actions = {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
+      localStorage.removeItem('loginType')
       removeToken()
       removeRefreshToken()
       resetRouter()
@@ -92,6 +159,7 @@ const actions = {
       commit('SET_ROLES', [])
       removeToken()
       removeRefreshToken()
+      localStorage.removeItem('loginType')
       resolve()
     })
   },

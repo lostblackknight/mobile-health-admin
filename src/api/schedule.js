@@ -1,9 +1,12 @@
 import request from '@/utils/request'
 
-export function getScheduleDatesByHospitalCodeAndDeptCode(hospitalCode, deptCode, pageNum, pageSize) {
+export function getScheduleDatesByHospitalCodeAndDeptCode(hospitalCode, deptCode, pageNum, pageSize, date) {
   return request({
     url: `/hospital/schedules/date/${hospitalCode}/${deptCode}/${pageNum}/${pageSize}`,
-    method: 'get'
+    method: 'get',
+    params: {
+      'date': date
+    }
   })
 }
 

@@ -45,6 +45,13 @@
         </el-form-item>
       </el-tooltip>
 
+      <el-form-item prop="loginType" style="border: 0; background-color: #2d3a4b; margin-left: 16px;">
+        <el-radio-group v-model="loginType" @change="handleChange">
+          <el-radio label="管理员" />
+          <el-radio label="医生" />
+        </el-radio-group>
+      </el-form-item>
+
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
     </el-form>
@@ -76,6 +83,7 @@ export default {
         username: 'admin',
         password: 'admin'
       },
+      loginType: '管理员',
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
@@ -102,6 +110,7 @@ export default {
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
+    localStorage.setItem('loginType', '管理员')
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -114,6 +123,16 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
+    handleChange() {
+      localStorage.setItem('loginType', this.loginType)
+      if (this.loginType === '管理员') {
+        this.loginForm.username = 'admin'
+        this.loginForm.password = 'admin'
+      } else if (this.loginType === '医生') {
+        this.loginForm.username = '18835551055'
+        this.loginForm.password = '123456'
+      }
+    },
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
@@ -181,8 +200,8 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -225,9 +244,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;

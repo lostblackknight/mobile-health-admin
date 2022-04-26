@@ -10,6 +10,9 @@
             <el-tree
               :data="depts"
               node-key="id"
+              :props="{
+                label: 'text'
+              }"
               :default-checked-keys="treeExpandData"
               :default-expanded-keys="treeExpandData"
               @node-click="handleNodeClick"
@@ -84,6 +87,7 @@
 <script>
 import { getDeptsByHospitalCode } from '@/api/dept'
 import { getDoctorListByScheduleDate, getScheduleDatesByHospitalCodeAndDeptCode } from '@/api/schedule'
+import moment from 'moment'
 
 export default {
   name: 'Schedule',
@@ -121,7 +125,9 @@ export default {
         })
         .then(() => {
           // 查询排班
-          getScheduleDatesByHospitalCodeAndDeptCode(this.currentHospitalCode, this.currentDeptCode, this.pageNum, this.pageSize)
+          // eslint-disable-next-line new-cap
+          const format = new moment().format('yyyy-MM-DD')// 今天
+          getScheduleDatesByHospitalCodeAndDeptCode(this.currentHospitalCode, this.currentDeptCode, this.pageNum, this.pageSize, format)
             .then(({ data }) => {
               this.scheduleDates = data.records
               this.pageSize = data.pageSize
@@ -130,12 +136,13 @@ export default {
             })
             .then(() => {
               // 选中今天
-              const format = this.dateFormat(new Date(2022, 4, 4)) // 今天
+              // eslint-disable-next-line new-cap
+              const format = new moment().format('yyyy-MM-DD')// 今天
 
               const scheduleDateItems = document.querySelectorAll('.app-container .right-container .schedule-date-container .schedule-date-item')
-              scheduleDateItems.forEach(item => {
+              scheduleDateItems.forEach((item, index) => {
                 item.classList.remove('schedule-date-item-active')
-                if (item.getAttribute('data-id') === format) {
+                if (index === 0) {
                   item.classList.add('schedule-date-item-active')
                 }
               })
@@ -151,11 +158,9 @@ export default {
             })
         })
     },
-    dateFormat(day) {
-      return `${day.getFullYear()}-${day.getMonth() < 10 ? '0' + day.getMonth() : day.getMonth()}-${day.getDate() < 10 ? '0' + day.getDate() : day.getDate()}`
-    },
     showWeek(scheduleDate) {
-      const format = this.dateFormat(new Date(2022, 4, 4))
+      // eslint-disable-next-line new-cap
+      const format = new moment().format('yyyy-MM-DD')// 今天
       if (String(scheduleDate.date) === format) {
         return '今天'
       } else {
@@ -174,7 +179,9 @@ export default {
         this.pageNum = 1
         this.doctorList = []
         // 查询排班
-        getScheduleDatesByHospitalCodeAndDeptCode(this.currentHospitalCode, this.currentDeptCode, this.pageNum, this.pageSize)
+        // eslint-disable-next-line new-cap
+        const format = new moment().format('yyyy-MM-DD')// 今天
+        getScheduleDatesByHospitalCodeAndDeptCode(this.currentHospitalCode, this.currentDeptCode, this.pageNum, this.pageSize, format)
           .then(({ data }) => {
             this.scheduleDates = data.records
             this.pageSize = data.pageSize
@@ -226,12 +233,32 @@ export default {
     },
     handleCurrentChange(current) {
       this.pageNum = current
-      getScheduleDatesByHospitalCodeAndDeptCode(this.currentHospitalCode, this.currentDeptCode, this.pageNum, this.pageSize)
+      // eslint-disable-next-line new-cap
+      const format = new moment().add(this.pageSize).format('yyyy-MM-DD')
+      getScheduleDatesByHospitalCodeAndDeptCode(this.currentHospitalCode, this.currentDeptCode, this.pageNum, this.pageSize, format)
         .then(({ data }) => {
           this.scheduleDates = data.records
           this.pageSize = data.pageSize
           this.pageNum = data.pageNum
           this.total = data.total
+          this.$nextTick(() => {
+            const scheduleDateItems = document.querySelectorAll('.app-container .right-container .schedule-date-container .schedule-date-item')
+            scheduleDateItems.forEach((item, index) => {
+              item.classList.remove('schedule-date-item-active')
+              if (index === 0) {
+                item.classList.add('schedule-date-item-active')
+              }
+            })
+          })
+          // 查询医生信息
+          this.loading = true
+          getDoctorListByScheduleDate(this.currentHospitalCode, this.currentDeptCode, format)
+            .then(({ data }) => {
+              this.doctorList = data
+            })
+            .finally(() => {
+              this.loading = false
+            })
         })
     }
   }
