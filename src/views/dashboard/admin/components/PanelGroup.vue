@@ -7,48 +7,35 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            New Visits
+            文章访问量
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="readCount" :duration="2600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+          <svg-icon icon-class="like" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Messages
+            文章点赞数
           </div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="likeCount" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('purchases')">
         <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="money" class-name="card-panel-icon" />
+          <svg-icon icon-class="star" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Purchases
+            文章收藏数
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
-        </div>
-      </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('shoppings')">
-        <div class="card-panel-icon-wrapper icon-shopping">
-          <svg-icon icon-class="shopping" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            Shoppings
-          </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="starCount" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -57,10 +44,32 @@
 
 <script>
 import CountTo from 'vue-count-to'
+import { getDoctorArticleLikeCount, getDoctorArticleReadCount, getDoctorArticleStarCount } from '@/api/topic'
 
 export default {
   components: {
     CountTo
+  },
+  data() {
+    return {
+      readCount: 0,
+      likeCount: 0,
+      starCount: 0
+    }
+  },
+  created() {
+    getDoctorArticleReadCount()
+      .then(({ data }) => {
+        this.readCount = data
+      })
+    getDoctorArticleLikeCount()
+      .then(({ data }) => {
+        this.likeCount = data
+      })
+    getDoctorArticleStarCount()
+      .then(({ data }) => {
+        this.starCount = data
+      })
   },
   methods: {
     handleSetLineChartData(type) {
@@ -99,11 +108,11 @@ export default {
       }
 
       .icon-message {
-        background: #36a3f7;
+        background: #f4516c;
       }
 
       .icon-money {
-        background: #f4516c;
+        background: #f4d951;
       }
 
       .icon-shopping {
@@ -116,11 +125,11 @@ export default {
     }
 
     .icon-message {
-      color: #36a3f7;
+      color: #f4516c;
     }
 
     .icon-money {
-      color: #f4516c;
+      color: #f4d951;
     }
 
     .icon-shopping {
@@ -160,7 +169,7 @@ export default {
   }
 }
 
-@media (max-width:550px) {
+@media (max-width: 550px) {
   .card-panel-description {
     display: none;
   }

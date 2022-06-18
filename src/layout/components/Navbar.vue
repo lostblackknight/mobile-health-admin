@@ -12,7 +12,7 @@
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-        <el-tooltip content="Global Size" effect="dark" placement="bottom">
+        <el-tooltip content="全局尺寸" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
 
@@ -24,9 +24,9 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile/index">
-            <el-dropdown-item>个人中心</el-dropdown-item>
-          </router-link>
+          <!--          <router-link to="/profile/index">-->
+          <!--            <el-dropdown-item>个人中心</el-dropdown-item>-->
+          <!--          </router-link>-->
           <router-link to="/">
             <el-dropdown-item>仪表板</el-dropdown-item>
           </router-link>

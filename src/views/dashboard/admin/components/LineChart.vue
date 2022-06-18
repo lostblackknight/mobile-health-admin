@@ -29,6 +29,10 @@ export default {
     chartData: {
       type: Object,
       required: true
+    },
+    label: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -64,15 +68,15 @@ export default {
     setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: this.label,
           boundaryGap: false,
           axisTick: {
             show: false
           }
         },
         grid: {
-          left: 10,
-          right: 10,
+          left: 30,
+          right: 40,
           bottom: 20,
           top: 30,
           containLabel: true
@@ -90,10 +94,10 @@ export default {
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: ['数量']
         },
         series: [{
-          name: 'expected', itemStyle: {
+          name: '数量', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -107,27 +111,8 @@ export default {
           data: expectedData,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
-        },
-        {
-          name: 'actual',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
-                color: '#3888fa',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
-              }
-            }
-          },
-          data: actualData,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        }]
+        }
+        ]
       })
     }
   }

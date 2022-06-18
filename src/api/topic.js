@@ -99,3 +99,45 @@ export function removeArticleByIds(ids) {
   })
 }
 
+export function getDoctorArticleReadCount() {
+  return request({
+    url: '/topic/article/total/doctor/read/count',
+    method: 'get'
+  })
+}
+
+export function getDoctorArticleStarCount() {
+  return request({
+    url: '/topic/article/total/doctor/star/count',
+    method: 'get'
+  })
+}
+
+export function getDoctorArticleLikeCount() {
+  return request({
+    url: '/topic/article/total/doctor/like/count',
+    method: 'get'
+  })
+}
+
+export function getDoctorArticleReadChart() {
+  return request({
+    url: '/topic/article/total/doctor/read/chart',
+    method: 'get'
+  })
+}
+
+export function getDoctorArticleLikeChart() {
+  return request({
+    url: '/topic/article/total/doctor/like/chart',
+    method: 'get'
+  })
+}
+
+export function getDoctorArticleStarChart() {
+  return request({
+    url: '/topic/article/total/doctor/star/chart',
+    method: 'get'
+  })
+}
+

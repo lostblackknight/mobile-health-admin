@@ -4,6 +4,7 @@
 
 <script>
 import echarts from 'echarts'
+
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
 
@@ -23,11 +24,31 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    // eslint-disable-next-line vue/require-default-prop
+    dataList: {
+      type: Array
+    },
+    // eslint-disable-next-line vue/require-default-prop
+    label: {
+      type: Array
+    },
+    titleName: {
+      type: String,
+      default: '订单数'
     }
   },
   data() {
     return {
       chart: null
+    }
+  },
+  watch: {
+    dataList: {
+      deep: true,
+      handler(val) {
+        this.setOptions(val)
+      }
     }
   },
   mounted() {
@@ -45,7 +66,9 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
+      this.setOptions(this.dataList)
+    },
+    setOptions(dataList) {
       this.chart.setOption({
         tooltip: {
           trigger: 'axis',
@@ -62,7 +85,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: this.label,
           axisTick: {
             alignWithLabel: true
           }
@@ -74,25 +97,11 @@ export default {
           }
         }],
         series: [{
-          name: 'pageA',
+          name: this.titleName,
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageB',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageC',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
+          data: dataList,
           animationDuration
         }]
       })

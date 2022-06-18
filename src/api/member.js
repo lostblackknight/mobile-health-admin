@@ -15,6 +15,13 @@ export function getMemberInfo() {
   })
 }
 
+export function getMemberChart() {
+  return request({
+    url: '/member/members/total/chart',
+    method: 'get'
+  })
+}
+
 export function getMemberList(pageNum, pageSize, queryParams) {
   return request({
     url: `/member/members/page/${pageNum}/${pageSize}`,

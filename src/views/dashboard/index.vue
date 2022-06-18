@@ -8,13 +8,14 @@
 import { mapGetters } from 'vuex'
 import adminDashboard from './admin'
 import editorDashboard from './editor'
+import memberDashboard from './member'
 
 export default {
   name: 'Dashboard',
-  components: { adminDashboard, editorDashboard },
+  components: { adminDashboard, editorDashboard, memberDashboard },
   data() {
     return {
-      currentRole: 'adminDashboard'
+      currentRole: 'memberDashboard'
     }
   },
   computed: {
@@ -23,8 +24,12 @@ export default {
     ])
   },
   created() {
-    if (!this.roles.includes('admin')) {
+    if (this.roles.includes('doctor')) {
       this.currentRole = 'editorDashboard'
+    } else if (this.roles.includes('admin')) {
+      this.currentRole = 'adminDashboard'
+    } else {
+      this.currentRole = 'memberDashboard'
     }
   }
 }

@@ -4,10 +4,6 @@ import Router from 'vue-router'
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
 Vue.use(Router)
 
 /**
@@ -300,50 +296,50 @@ export const asyncRoutes = [
       }
     ]
   },
-  {
-    path: '/order',
-    component: Layout,
-    redirect: '/order/index',
-    alwaysShow: true,
-    meta: {
-      title: '订单管理',
-      icon: 'el-icon-s-order',
-      roles: ['admin']
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/Order/index'),
-        name: 'Order',
-        meta: {
-          title: '订单列表',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      }
-    ]
-  },
-  {
-    path: '/message',
-    component: Layout,
-    redirect: '/message/index',
-    alwaysShow: true,
-    meta: {
-      title: '消息管理',
-      icon: 'message',
-      roles: ['admin']
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/Message/index'),
-        name: 'Message',
-        meta: {
-          title: '消息列表',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/order',
+  //   component: Layout,
+  //   redirect: '/order/index',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: '订单管理',
+  //     icon: 'el-icon-s-order',
+  //     roles: ['admin']
+  //   },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/Order/index'),
+  //       name: 'Order',
+  //       meta: {
+  //         title: '订单列表',
+  //         roles: ['admin'] // or you can only set roles in sub nav
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/message',
+  //   component: Layout,
+  //   redirect: '/message/index',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: '消息管理',
+  //     icon: 'message',
+  //     roles: ['admin']
+  //   },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/Message/index'),
+  //       name: 'Message',
+  //       meta: {
+  //         title: '消息列表',
+  //         roles: ['admin'] // or you can only set roles in sub nav
+  //       }
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/permission',
   //   component: Layout,
