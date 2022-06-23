@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  bee-health-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bee-health-admin:latest
+    container_name: bee-health-admin
+    env_file:
+      - ./docker/bee-health-admin/env/bee-health-admin.env
+    environment:
+      # 后端服务器的ip地址
+      BASE_API_HOST: 192.168.86.131
+
+networks:
+  bee-health:
+    external: true
