@@ -12,6 +12,10 @@ services:
     environment:
       # 后端服务器的ip地址
       BASE_API_HOST: 192.168.86.131
+    networks:
+      - bee-health
+    ports:
+      - "9527:80"
 
 networks:
   bee-health:
