@@ -89,7 +89,6 @@
 
 <script>
 import { createRole, getRoleById, getRoles, modifyRole, removeRoleById, removeRoleByIds } from '@/api/role'
-import { removeHospitalClientDetailById, removeHospitalClientDetailByIds } from '@/api/hospitalClientDetail'
 
 export default {
   name: 'Role',

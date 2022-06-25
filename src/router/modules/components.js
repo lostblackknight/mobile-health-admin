@@ -19,12 +19,6 @@ const componentsRouter = {
       meta: { title: 'Tinymce' }
     },
     {
-      path: 'markdown',
-      component: () => import('@/views/components-demo/markdown'),
-      name: 'MarkdownDemo',
-      meta: { title: 'Markdown' }
-    },
-    {
       path: 'json-editor',
       component: () => import('@/views/components-demo/json-editor'),
       name: 'JsonEditorDemo',

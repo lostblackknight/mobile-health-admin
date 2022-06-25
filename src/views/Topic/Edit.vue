@@ -63,7 +63,7 @@
 
 <script>
 import Tinymce from '@/components/Tinymce'
-import { createArticle, getArticleById, getCategoryOptions, modifyArticle } from '@/api/topic'
+import { getArticleById, getCategoryOptions, modifyArticle } from '@/api/topic'
 import { getToken } from '@/utils/auth'
 
 export default {
