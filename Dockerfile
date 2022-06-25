@@ -9,7 +9,7 @@ RUN npm --registry https://registry.npmmirror.com install
 
 COPY ./ ./
 
-RUN npm run build
+RUN npm run build:prod
 
 # production stage
 FROM nginx:1.21.6 as production-stage
